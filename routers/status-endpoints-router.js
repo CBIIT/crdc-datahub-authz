@@ -5,7 +5,7 @@ const router = express.Router();
 router.get("/ping", (req, res, next) => {
     res.send('pong');
 });
-router.get("/somethin", (req, res, next) => {
+router.get("/user", (req, res, next) => {
     res.json({
         version: config.version,
         date: config.date,
