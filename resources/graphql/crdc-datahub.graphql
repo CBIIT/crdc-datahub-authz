@@ -163,3 +163,4 @@ type Mutation {
     "Admin only operations"
     deleteApplication (id: ID!): Application
 }
+

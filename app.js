@@ -1,67 +1,58 @@
-const newrelic = require('newrelic');
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-const {createSession} = require("./services/session");
-var logger = require('morgan');
+const express = require('express');
 const fs = require('fs');
+const {join} = require("path");
 const cors = require('cors');
+const logger = require('morgan');
+const createError = require('http-errors');
 const config = require('./config');
-const cookieParser = require('cookie-parser');
+const createSession = require("./middleware/session-middleware");
+// const createSession = require("./services/session");
+const statusRouter = require("./routers/status-endpoints-router");
+const graphqlRouter = require("./routers/graphql-router");
 
-console.log(config);
-
-const LOG_FOLDER = 'logs';
-if (!fs.existsSync(LOG_FOLDER)) {
-  fs.mkdirSync(LOG_FOLDER);
-}
+// var authRouter = require('./routes/auth');
 
 
-// create a write stream (in append mode)
-const accessLogStream = fs.createWriteStream(path.join(__dirname, LOG_FOLDER, 'access.log'), { flags: 'a'})
+// print environment variables to log
+console.info(config);
 
-var authRouter = require('./routes/auth');
-var app = express();
+// create logs folder if it does not already exist
+const LOGS_FOLDER = 'logs';
+if (!fs.existsSync(LOGS_FOLDER)) fs.mkdirSync(LOGS_FOLDER);
+
+// create a log write stream in append mode
+const accessLogStream = fs.createWriteStream(join(__dirname, LOGS_FOLDER, 'access.log'), { flags: 'a'});
+
+// initialize the app
+const app = express();
 app.use(cors());
-
-// setup the logger
 app.use(logger('combined', { stream: accessLogStream }))
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(createSession({ sessionSecret: config.cookie_secret, session_timeout: config.session_timeout }));
+app.use(express.static(join(__dirname, 'public')));
 
+// add ping and version endpoints
+app.use("/", statusRouter);
 
-app.use('/api/auth', authRouter);
+// create session
+// app.use(createSession(config.session_secret, config.session_timeout, config.mongo_db_connection_string));
 
-if (process.env.NODE_ENV === 'development') {
-  console.log("Running in development mode, local test page enabled");
-  app.set('view engine', 'ejs');
-
-  app.get('/', (req, res) => {
-    res.render('index', {
-      nihClientID: config.nih.CLIENT_ID,
-      nihRedirectURL: config.nih.REDIRECT_URL,
-      noAutoLogin: config.noAutoLogin
-    });
-  });
-}
-
+// add graphql endpoint
+app.use("/api/graphql", graphqlRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+app.use((req, res, next) => {
+    next(createError(404));
 });
-
 // error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+app.use((err, req, res, next) => {
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.json(res.locals.message);
+    // render the error page
+    res.status(err.status || 500);
+    res.json(res.locals.message);
 });
+
 
 module.exports = app;
