@@ -5,11 +5,9 @@ const cors = require('cors');
 const logger = require('morgan');
 const createError = require('http-errors');
 const config = require('./config');
-const createSession = require("./middleware/session-middleware");
-// const createSession = require("./services/session");
 const statusRouter = require("./routers/status-endpoints-router");
 const graphqlRouter = require("./routers/graphql-router");
-
+const createSession = require("./crdc-datahub-database-drivers/session-middleware");
 // var authRouter = require('./routes/auth');
 
 
@@ -35,7 +33,7 @@ app.use(express.static(join(__dirname, 'public')));
 app.use("/", statusRouter);
 
 // create session
-// app.use(createSession(config.session_secret, config.session_timeout, config.mongo_db_connection_string));
+app.use(createSession(config.session_secret, config.session_timeout, config.mongo_db_connection_string));
 
 // add graphql endpoint
 app.use("/api/graphql", graphqlRouter);
