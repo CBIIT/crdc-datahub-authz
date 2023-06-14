@@ -1,0 +1,16 @@
+type Query {
+    version: String
+    address :[Address]
+    user: [User]
+}
+
+type Address {
+    street: String
+    city: String
+    state: String
+    zip: String
+}
+
+type User {
+    name: String
+}
