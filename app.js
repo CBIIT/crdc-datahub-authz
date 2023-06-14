@@ -36,7 +36,7 @@ app.use("/api/authz", statusRouter);
 app.use(createSession(config.session_secret, config.session_timeout, config.mongo_db_connection_string));
 
 // add graphql endpoint
-app.use("/api/graphql", graphqlRouter);
+app.use("/api/authz/graphql", graphqlRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
