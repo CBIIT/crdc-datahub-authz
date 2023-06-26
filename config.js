@@ -17,4 +17,6 @@ let config = {
 };
 config.mongo_db_connection_string = `mongodb://${config.mongo_db_user}:${config.mongo_db_password}@${config.mongo_db_host}:${process.env.MONGO_DB_PORT}`;
 
+// console.log(config.mongo_db_connection_string)
+
 module.exports = config;
