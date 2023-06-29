@@ -1,4 +1,5 @@
 const {getCurrentTimeYYYYMMDDSS} = require("../utility/time-utility");
+const {v4} = require("uuid")
 
 
 class User {
@@ -25,22 +26,32 @@ class User {
             limitReturnToOneApplication
         ];
         let result = await this.userCollection.aggregate(pipeline);
-        let insertNewUser = await this.userCollection.insert({
-            email: context.userInfo.email,
-            IDP: context.userInfo.IDP,
-            userStatus: "Active",
-            role: "User",
-            organizations: [],
-            firstName: context.userInfo.firstName,
-            lastName: context.userInfo.lastName,
-            createdAt: getCurrentTimeYYYYMMDDSS(),
-            updateAt: getCurrentTimeYYYYMMDDSS()
-
-        });
-        if (result.length < 1)
-            return insertNewUser
-        else
-            return result[0];
+        let user
+        if (result.length < 1){
+            user = {
+                _id: v4(),
+                email: context.userInfo.email,
+                IDP: context.userInfo.IDP,
+                userStatus: "Active",
+                role: "User",
+                organizations: [],
+                firstName: context.userInfo.firstName,
+                lastName: context.userInfo.lastName,
+                createdAt: getCurrentTimeYYYYMMDDSS(),
+                updateAt: getCurrentTimeYYYYMMDDSS()
+                }
+            await this.userCollection.insert(user);
+        }
+        else{
+            user =  result[0];
+        }
+        // if (result.matchedCount < 1) throw new Error(ERROR.APPLICATION_NOT_FOUND+id);
+        if (result.matchedCount < 1) throw (conso.log('there is an error getting result'))
+        context.userInfo = {
+            ...user,
+            ...context.userInfo
+        }
+        return user
     }
         
 }
