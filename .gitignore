@@ -6,3 +6,4 @@ node_modules
 *.http
 
 *localtest*
+*DS_STORE*

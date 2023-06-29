@@ -8,10 +8,6 @@ const {DatabaseConnector} = require("../crdc-datahub-database-drivers/database-c
 const {User} = require("./user")
 
 const schema = buildSchema(require("fs").readFileSync("resources/graphql/authorization.graphql", "utf8"));
-// const schema = buildSchema(require("fs").readFileSync("resources/graphql/placeholder.graphql", "utf8"));
-
-// const mongoQueries = new MongoQueries(config.mongo_db_connection_string, DATABASE_NAME);
-// const usersService = new UsersService(mongoQueries, USERS_COLLECTION);
 const dbService = new MongoQueries(config.mongo_db_connection_string, DATABASE_NAME);
 const dbConnector = new DatabaseConnector(config.mongo_db_connection_string);
 

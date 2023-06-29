@@ -10,18 +10,14 @@ class User {
     }
 
     async getMyUser(parm, context) {
-        // console.log(context.userInfo)
-
-        // await this.userCollection.insert(pipeline);
+        let session_currentTime = getCurrentTimeYYYYMMDDSS();
         const user_email = {"$match": {
             email: context.userInfo.email,
             IDP: context.userInfo.IDP,}}
-        // const user_email = {"$match": {email: "testt@test.vom"}}
         const sortCreatedAtDescending = {"$sort": {createdAt: -1}};
         const limitReturnToOneApplication = {"$limit": 1};
         const pipeline = [
             user_email,
-            // user_idp,
             sortCreatedAtDescending,
             limitReturnToOneApplication
         ];
@@ -37,23 +33,29 @@ class User {
                 organizations: [],
                 firstName: context.userInfo.firstName,
                 lastName: context.userInfo.lastName,
-                createdAt: getCurrentTimeYYYYMMDDSS(),
-                updateAt: getCurrentTimeYYYYMMDDSS()
+                createdAt: session_currentTime,
+                updateAt: session_currentTime
                 }
             await this.userCollection.insert(user);
         }
         else{
             user =  result[0];
         }
-        // if (result.matchedCount < 1) throw new Error(ERROR.APPLICATION_NOT_FOUND+id);
-        if (result.matchedCount < 1) throw (conso.log('there is an error getting result'))
+        if (result.matchedCount < 1){
+            let error = "there is an error getting the result";
+            console.error(error)
+            throw new Error(error)
+          } 
         context.userInfo = {
             ...user,
             ...context.userInfo
         }
         return user
     }
-        
+    
+
+    async updateMyUser(parm, context) {
+    }
 }
 
 
