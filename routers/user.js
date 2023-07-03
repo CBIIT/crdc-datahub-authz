@@ -4,7 +4,6 @@ const {v4} = require("uuid")
 class User {
     constructor(userCollection, dbService) {
         this.userCollection = userCollection
-        this.dbService = dbService
     }
 
     async getMyUser(params, context) {
