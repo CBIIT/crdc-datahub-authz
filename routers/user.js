@@ -66,7 +66,6 @@ class User {
             updateAt: session_currentTime
         }
         const original_result = await this.userCollection.find(context.userInfo._id);
-        console.log(original_result[0])
 
         const original_obj = {
             _id: original_result[0]._id,
@@ -80,7 +79,6 @@ class User {
         let update_result 
 
         if ((target_obj.firstName != original_obj.firstName)||(target_obj.lastName != original_obj.lastName)){
-            console.log('name is not the same')
             current_obj = target_obj
             update_result = await this.userCollection.update(target_obj);
 
@@ -103,7 +101,7 @@ class User {
             ...current_obj,
             updateAt: session_currentTime
         }
-        console.log(update_result)
+
         return user
 
     }
