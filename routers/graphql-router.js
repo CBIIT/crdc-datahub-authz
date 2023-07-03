@@ -17,7 +17,8 @@ dbConnector.connect().then(() => {
     const dataInterface = new User(userColletion, dbService);
     root = {
         version: () => {return config.version},
-        getMyUser : dataInterface.getMyUser.bind(dataInterface)
+        getMyUser : dataInterface.getMyUser.bind(dataInterface),
+        updateMyUser : dataInterface.updateMyUser.bind(dataInterface),
     };
 });
 module.exports = (req, res) => {
