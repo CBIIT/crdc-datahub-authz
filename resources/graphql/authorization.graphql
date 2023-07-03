@@ -12,7 +12,7 @@ type User {
 }
 
 type UserInfo {
-  _id: String # MongoDB native ID or UUID
+  userID: String # MongoDB native ID or UUID
   firstName: String
   lastName: String
   orgRole: String # [Owner, Submitter, Concierge], Concierge can only be assign to a Curator

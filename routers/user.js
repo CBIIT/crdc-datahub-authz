@@ -53,51 +53,48 @@ class User {
     }
 
     async updateMyUser(params, context) {
+        
         let session_currentTime = getCurrentTimeYYYYMMDDSS();
-        let user
+        let user = await this.userCollection.find(context.userInfo._id);
+        if (!user || !Array.isArray(user) || user.length < 1) 
+            throw new Error("User is not in the database")
+        let update_result 
 
-        params.userInfo._id = context.userInfo._id;
-        params.userInfo.updateAt = context.userInfo.updateAt;
+        // verifried
+        if (!context.userInfo._id) {
+            let error = "there is no UserId in the session";
+            console.error(error)
+            throw new Error(error)
+        }
+
+
         const target_obj ={
             _id: context.userInfo._id,
             firstName: params.userInfo.firstName,
             lastName: params.userInfo.lastName,
             updateAt: session_currentTime
         }
-        const original_result = await this.userCollection.find(context.userInfo._id);
 
-        const original_obj = {
-            _id: original_result[0]._id,
-            firstName: original_result[0].firstName,
-            lastName: original_result[0].lastName,
-            updateAt: session_currentTime
+        update_result = await this.userCollection.update(target_obj);
 
-        } 
-
-        let current_obj = original_obj
-        let update_result 
-
-        if ((target_obj.firstName != original_obj.firstName)||(target_obj.lastName != original_obj.lastName)){
-            current_obj = target_obj
-            update_result = await this.userCollection.update(target_obj);
-
-            // error handling
-            if (update_result.matchedCount < 1) {
-                let error = "there is an error getting the result";
-                console.error(error)
-                throw new Error(error)
-            }
+        // error handling
+        if (update_result.matchedCount < 1) {
+            let error = "there is an error getting the result";
+            console.error(error)
+            throw new Error(error)
         }
+        
 
         context.userInfo = {
             ...context.userInfo,
-                ...current_obj,
+            ...target_obj,
             updateAt: session_currentTime
 
-            }
+        }
         user = {
-            ...original_result[0],
-            ...current_obj,
+            ...user[0],
+            firstName: params.userInfo.firstName,
+            lastName: params.userInfo.lastName,
             updateAt: session_currentTime
         }
 
