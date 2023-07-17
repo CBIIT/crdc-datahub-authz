@@ -40,8 +40,8 @@ type Organization {
 
 
 input UpdateUserInput {
-    firstName: String
-    lastName: String
+    firstName: String!
+    lastName: String!
 }
 
 type Query {
