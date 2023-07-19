@@ -7,6 +7,7 @@ type User {
   IDP: String # [NIH, Login.gov]
   email: String
   organizations: [OrgInfo]
+  tokens: [String]
   createdAt: String #2023-05-01T08:23:30Z
   updateAt: String #2023-05-01T09:23:30Z
 }
@@ -38,6 +39,11 @@ type Organization {
   users: [UserInfo]
 }
 
+type Token {
+  token: [String]
+  message: String
+}
+
 
 input UpdateUserInput {
     firstName: String!
@@ -52,4 +58,6 @@ type Query {
 type Mutation {
     "User initiated operations"
     updateMyUser (userInfo: UpdateUserInput!): User
+    grantToken: Token
+    invalidateToken(uuids: [String] = []): Token
 }
