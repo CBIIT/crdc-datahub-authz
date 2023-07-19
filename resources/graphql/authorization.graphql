@@ -39,8 +39,8 @@ type Organization {
   users: [UserInfo]
 }
 
-type Token {
-  token: [String]
+type Tokens {
+  tokens: [String]
   message: String
 }
 
@@ -58,6 +58,6 @@ type Query {
 type Mutation {
     "User initiated operations"
     updateMyUser (userInfo: UpdateUserInput!): User
-    grantToken: Token
-    invalidateToken(uuids: [String] = []): Token
+    grantToken: Tokens
+    invalidateToken(uuids: [String] = []): Tokens
 }
