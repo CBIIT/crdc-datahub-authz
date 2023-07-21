@@ -6,7 +6,8 @@ type User {
   role: String # [Admin, User, Curator, FederalLead, DC_POC]
   IDP: String # [NIH, Login.gov]
   email: String
-  organizations: [OrgInfo]
+  organization: String # Organization ID
+  curatedOrganizations: [String] # Curated organization IDs, only applicable when the user's role is Curator
   tokens: [String]
   createdAt: String #2023-05-01T08:23:30Z
   updateAt: String #2023-05-01T09:23:30Z
