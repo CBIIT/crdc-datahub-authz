@@ -15,7 +15,9 @@ dbConnector.connect().then(() => {
     const userCollection = new MongoDBCollection(dbConnector.client, DATABASE_NAME, USER_COLLECTION);
     const dataInterface = new User(userCollection);
     root = {
-        getMyUser : dataInterface.getMyUser.bind(dataInterface)
+        getMyUser : dataInterface.getMyUser.bind(dataInterface),
+        grantToken: dataInterface.grantToken.bind(dataInterface),
+
     };
 });
 module.exports = (req, res) => {
