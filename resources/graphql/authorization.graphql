@@ -3,7 +3,7 @@ type User {
   firstName: String
   lastName: String
   userStatus: String # [Active, Inactive, Disabled]
-  role: String # [Admin, User, Curator, FederalLead, DC_POC]
+  role: String # MVP 1 roles: [User, FederalLead, Owner, Admin]
   IDP: String # [NIH, Login.gov]
   email: String
   organization: OrgInfo # Organization
