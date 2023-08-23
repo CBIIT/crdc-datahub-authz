@@ -39,7 +39,7 @@ type Organization {
   concierges: [String] # The user's IDs are stored for the organization curators
   createdAt: String # 2023-05-01T09:23:30Z, ISO data time format
   updateAt: String # 2023-05-01T09:23:30Z  ISO data time format
-  users: [UserInfo]
+  submitters: [UserInfo]
 }
 
 type Tokens {
