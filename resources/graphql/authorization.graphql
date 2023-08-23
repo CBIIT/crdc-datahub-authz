@@ -3,7 +3,7 @@ type User {
   firstName: String
   lastName: String
   userStatus: String # [Active, Inactive, Disabled]
-  role: String # MVP 1 roles: [User, FederalLead, Owner, Admin]
+  role: String # [User, Submitter, Org Owner, Fed Lead, Data Concierge, Data Curator, Data Commons Owner, Admin]
   IDP: String # [NIH, Login.gov]
   email: String
   organization: OrgInfo # Organization
@@ -17,8 +17,8 @@ type UserInfo {
   userID: String # MongoDB native ID or UUID
   firstName: String
   lastName: String
-  orgRole: String # [Owner, Submitter, Concierge], Concierge can only be assign to a Curator
-  orgStatus: String # [Active, Inactive, Disabled]
+#  orgRole: String # [Owner, Submitter, Concierge], Concierge can only be assign to a Curator
+#  orgStatus: String # [Active, Inactive, Disabled]
   createdAt: String # 2023-05-01T09:23:30Z, ISO data time format
   updateAt: String # 2023-05-01T09:23:30Z  ISO data time format
 }
@@ -26,8 +26,8 @@ type UserInfo {
 type OrgInfo {
   orgID: String # MongoDB native ID or UUID
   orgName: String
-  orgRole: String # [Owner, Submitter, Concierge], Concierge can only be assign to a Curator
-  orgStatus: String # [Active, Inactive, Disabled]
+#  orgRole: String # [Owner, Submitter, Concierge], Concierge can only be assign to a Curator
+#  orgStatus: String # [Active, Inactive, Disabled]
   createdAt: String # 2023-05-01T09:23:30Z, ISO data time format
   updateAt: String # 2023-05-01T09:23:30Z  ISO data time format
 }
@@ -36,10 +36,10 @@ type Organization {
   _id: String # MongoDB native ID or UUID
   name: String
   owner: String # The user's ID stored for the organization owner
-  curators: [String] # The user's IDs are stored for the organization curators
+  concierges: [String] # The user's IDs are stored for the organization curators
   createdAt: String # 2023-05-01T09:23:30Z, ISO data time format
   updateAt: String # 2023-05-01T09:23:30Z  ISO data time format
-  users: [UserInfo]
+  submitters: [UserInfo]
 }
 
 type Tokens {
@@ -56,11 +56,19 @@ input UpdateUserInput {
 type Query {
     "Limit to current user only"
     getMyUser : User
+    listOrganizations: [OrgInfo]
+
+    "Admin and Org Owner only operations, Org Owner only see users within same organization"
+    listUsers: [User]
 }
 
 type Mutation {
     "User initiated operations"
     updateMyUser (userInfo: UpdateUserInput!): User
     grantToken: Tokens
+
+    "Admin only operations"
     invalidateToken(uuids: [String] = []): Tokens
+    "Admin and Org Owner only, Org Owner can only change status!"
+    editUser(userID: String, organization: String, status: String, role: String): User
 }
