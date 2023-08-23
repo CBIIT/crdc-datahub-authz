@@ -17,8 +17,8 @@ type UserInfo {
   userID: String # MongoDB native ID or UUID
   firstName: String
   lastName: String
-  orgRole: String # [Owner, Submitter, Concierge], Concierge can only be assign to a Curator
-  orgStatus: String # [Active, Inactive, Disabled]
+#  orgRole: String # [Owner, Submitter, Concierge], Concierge can only be assign to a Curator
+#  orgStatus: String # [Active, Inactive, Disabled]
   createdAt: String # 2023-05-01T09:23:30Z, ISO data time format
   updateAt: String # 2023-05-01T09:23:30Z  ISO data time format
 }
