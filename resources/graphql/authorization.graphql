@@ -60,6 +60,7 @@ type Query {
 
     "Admin and Org Owner only operations, Org Owner only see users within same organization"
     listUsers: [User]
+    getUser(userID: ID!): User
 }
 
 type Mutation {

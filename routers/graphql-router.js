@@ -16,6 +16,7 @@ dbConnector.connect().then(() => {
     const dataInterface = new User(userCollection, logCollection);
     root = {
         getMyUser : dataInterface.getMyUser.bind(dataInterface),
+        getUser : dataInterface.getUser.bind(dataInterface),
         updateMyUser : dataInterface.updateMyUser.bind(dataInterface),
     };
 });
