@@ -35,7 +35,7 @@ type OrgInfo {
 type Organization {
   _id: String # MongoDB native ID or UUID
   name: String
-  owner: String # The user's ID stored for the organization owner
+  owners: [String] # The user's ID stored for the organization owners
   concierges: [String] # The user's IDs are stored for the organization curators
   createdAt: String # 2023-05-01T09:23:30Z, ISO data time format
   updateAt: String # 2023-05-01T09:23:30Z  ISO data time format
