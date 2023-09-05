@@ -18,6 +18,7 @@ dbConnector.connect().then(() => {
         getMyUser : dataInterface.getMyUser.bind(dataInterface),
         getUser : dataInterface.getUser.bind(dataInterface),
         updateMyUser : dataInterface.updateMyUser.bind(dataInterface),
+        listUsers : dataInterface.listUsers.bind(dataInterface),
     };
 });
 module.exports = (req, res) => {
