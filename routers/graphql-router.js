@@ -41,6 +41,7 @@ dbConnector.connect().then(() => {
             isLoggedInOrThrow(context);
             return dataInterface.updateMyUser(args, context)
         },
+        listUsers : dataInterface.listUsers.bind(dataInterface),
     };
 });
 module.exports = (req, res) => {
