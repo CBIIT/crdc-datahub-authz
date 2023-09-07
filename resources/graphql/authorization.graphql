@@ -1,3 +1,4 @@
+scalar Date
 type User {
   _id: String # MongoDB native ID or UUID
   firstName: String
@@ -9,8 +10,8 @@ type User {
   organization: OrgInfo # Organization
   curatedOrganizations: [OrgInfo] # Curated organizations, only applicable when the user's role is Curator
   tokens: [String]
-  createdAt: String # ISO 8601 date time format with UTC or offset e.g., 2023-05-01T09:23:30Z
-  updateAt: String # ISO 8601 date time format with UTC or offset e.g., 2023-05-01T09:23:30Z
+  createdAt: Date # ISO 8601 date time format with UTC or offset e.g., 2023-05-01T09:23:30Z
+  updateAt: Date # ISO 8601 date time format with UTC or offset e.g., 2023-05-01T09:23:30Z
 }
 
 type UserInfo {
@@ -19,8 +20,8 @@ type UserInfo {
   lastName: String
 #  orgRole: String # [Owner, Submitter, Concierge], Concierge can only be assign to a Curator
 #  orgStatus: String # [Active, Inactive, Disabled]
-  createdAt: String # ISO 8601 date time format with UTC or offset e.g., 2023-05-01T09:23:30Z
-  updateAt: String # ISO 8601 date time format with UTC or offset e.g., 2023-05-01T09:23:30Z
+  createdAt: Date # ISO 8601 date time format with UTC or offset e.g., 2023-05-01T09:23:30Z
+  updateAt: Date # ISO 8601 date time format with UTC or offset e.g., 2023-05-01T09:23:30Z
 }
 
 type OrgInfo {
@@ -28,8 +29,8 @@ type OrgInfo {
   orgName: String
 #  orgRole: String # [Owner, Submitter, Concierge], Concierge can only be assign to a Curator
 #  orgStatus: String # [Active, Inactive, Disabled]
-  createdAt: String # ISO 8601 date time format with UTC or offset e.g., 2023-05-01T09:23:30Z
-  updateAt: String # ISO 8601 date time format with UTC or offset e.g., 2023-05-01T09:23:30Z
+  createdAt: Date # ISO 8601 date time format with UTC or offset e.g., 2023-05-01T09:23:30Z
+  updateAt: Date # ISO 8601 date time format with UTC or offset e.g., 2023-05-01T09:23:30Z
 }
 
 type Organization {
@@ -37,8 +38,8 @@ type Organization {
   name: String
   owner: String # The user's ID stored for the organization owner
   concierge: String # The user's IDs are stored for the organization curators
-  createdAt: String # ISO 8601 date time format with UTC or offset e.g., 2023-05-01T09:23:30Z
-  updateAt: String # ISO 8601 date time format with UTC or offset e.g., 2023-05-01T09:23:30Z
+  createdAt: Date # ISO 8601 date time format with UTC or offset e.g., 2023-05-01T09:23:30Z
+  updateAt: Date # ISO 8601 date time format with UTC or offset e.g., 2023-05-01T09:23:30Z
   submitters: [UserInfo]
 }
 
