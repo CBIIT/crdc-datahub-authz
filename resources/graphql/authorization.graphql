@@ -41,7 +41,7 @@ type Organization {
   status: String # [Active, Inactive], default to Active
   conciergeID: ID # The user's IDs are stored for the organization curators, aka. primary contact
   conciergeName: String # The user's name is stored for the organization curators, aka. primary contact
-  studies: [ApprovedStudy] # Study abbreviations
+  studies: [ApprovedStudy] # Study names and abbreviations
   createdAt: Date # ISO 8601 date time format with UTC or offset e.g., 2023-05-01T09:23:30Z
   updateAt: Date # ISO 8601 date time format with UTC or offset e.g., 2023-05-01T09:23:30Z
   submitters: [UserInfo]
@@ -60,6 +60,11 @@ type ApprovedStudy {
 input UpdateUserInput {
     firstName: String!
     lastName: String!
+}
+
+input ApprovedStudyInput {
+  studyName: String!
+  studyAbbreviation: String!
 }
 
 type Query {
