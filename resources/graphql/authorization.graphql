@@ -92,7 +92,7 @@ type Mutation {
         orgID: ID!,
         name: String, # BE needs to check uniqueness of the new name
         conciergeID: String, # BE needs to save both ID and name (first + last) of the concierge
-        studies: [ApprovedStudy], # Will replace the list in the DB
+        studies: [ApprovedStudyInput], # Will replace the list in the DB
         status: String # in [Active, Inactive]
     ): Organization
     editUser(userID: ID, organization: String, status: String, role: String): User
