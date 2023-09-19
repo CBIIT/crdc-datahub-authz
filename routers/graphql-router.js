@@ -8,7 +8,6 @@ const {User} = require("../crdc-datahub-database-drivers/services/user")
 const {Organization} = require("../crdc-datahub-database-drivers/services/organization")
 const {ERROR} = require("../crdc-datahub-database-drivers/constants/error-constants");
 const {USER} = require("../crdc-datahub-database-drivers/constants/user-constants");
-const {ORGANIZATION} = require("../crdc-datahub-database-drivers/constants/organization-constants");
 
 const schema = buildSchema(require("fs").readFileSync("resources/graphql/authorization.graphql", "utf8"));
 const dbConnector = new DatabaseConnector(config.mongo_db_connection_string);
@@ -37,7 +36,7 @@ dbConnector.connect().then(() => {
                 throw new Error(ERROR.NO_ORG_ASSIGNED);
             }
 
-            const filters = { status: ORGANIZATION.STATUSES.ACTIVE };
+            const filters = {};
             if (context?.userInfo?.role === USER.ROLES.ORG_OWNER) {
                 filters["_id"] = context?.userInfo?.organization?.orgID;
             }
