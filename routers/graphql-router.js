@@ -25,9 +25,19 @@ dbConnector.connect().then(() => {
         updateMyUser : dataInterface.updateMyUser.bind(dataInterface),
         listUsers : dataInterface.listUsers.bind(dataInterface),
         editUser : dataInterface.editUser.bind(dataInterface),
+        listActiveCurators: (params, context) => {
+            if (!context?.userInfo?.email || !context?.userInfo?.IDP) {
+                throw new Error(ERROR.NOT_LOGGED_IN);
+            }
+            if (context?.userInfo?.role !== USER.ROLES.ADMIN) {
+                throw new Error(ERROR.INVALID_ROLE);
+            };
+
+            return dataInterface.listActiveCurators();
+        },
         listOrganizations: (params, context) => {
             if (!context?.userInfo?.email || !context?.userInfo?.IDP) {
-                throw new Error(ERROR.NOT_LOGGED_IN)
+                throw new Error(ERROR.NOT_LOGGED_IN);
             }
             if (context?.userInfo?.role !== USER.ROLES.ADMIN && context?.userInfo.role !== USER.ROLES.ORG_OWNER) {
                 throw new Error(ERROR.INVALID_ROLE);
@@ -42,6 +52,32 @@ dbConnector.connect().then(() => {
             }
 
             return organizationService.listOrganizations(filters);
+        },
+        getOrganization: (params, context) => {
+            if (!context?.userInfo?.email || !context?.userInfo?.IDP) {
+                throw new Error(ERROR.NOT_LOGGED_IN);
+            }
+            if (context?.userInfo?.role !== USER.ROLES.ADMIN) {
+                throw new Error(ERROR.INVALID_ROLE);
+            }
+            if (!params?.orgID) {
+                throw new Error(ERROR.INVALID_ORG_ID);
+            }
+
+            return organizationService.getOrganizationByID(params.orgID);
+        },
+        editOrganization: (params, context) => {
+            if (!context?.userInfo?.email || !context?.userInfo?.IDP) {
+                throw new Error(ERROR.NOT_LOGGED_IN);
+            }
+            if (context?.userInfo?.role !== USER.ROLES.ADMIN) {
+                throw new Error(ERROR.INVALID_ROLE);
+            }
+            if (!params?.orgID) {
+                throw new Error(ERROR.INVALID_ORG_ID);
+            }
+
+            return organizationService.editOrganization(params, userCollection);
         },
     };
 });
