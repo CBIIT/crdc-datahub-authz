@@ -16,7 +16,7 @@ dbConnector.connect().then(() => {
     const logCollection = new MongoDBCollection(dbConnector.client, DATABASE_NAME, LOG_COLLECTION);
     const organizationCollection = new MongoDBCollection(dbConnector.client, DATABASE_NAME, ORGANIZATION_COLLECTION);
     const organizationService = new Organization(organizationCollection);
-    const dataInterface = new User(userCollection, logCollection, organizationService);
+    const dataInterface = new User(userCollection, logCollection, organizationService, config);
     root = {
         getMyUser : dataInterface.getMyUser.bind(dataInterface),
         getUser : dataInterface.getUser.bind(dataInterface),
@@ -24,6 +24,7 @@ dbConnector.connect().then(() => {
         listUsers : dataInterface.listUsers.bind(dataInterface),
         editUser : dataInterface.editUser.bind(dataInterface),
         listOrganizations : dataInterface.listOrganizations.bind(dataInterface),
+        grantToken: dataInterface.grantToken.bind(dataInterface),
     };
 });
 module.exports = (req, res) => {
