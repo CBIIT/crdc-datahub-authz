@@ -25,16 +25,7 @@ dbConnector.connect().then(() => {
         updateMyUser : dataInterface.updateMyUser.bind(dataInterface),
         listUsers : dataInterface.listUsers.bind(dataInterface),
         editUser : dataInterface.editUser.bind(dataInterface),
-        listActiveCurators: (params, context) => {
-            if (!context?.userInfo?.email || !context?.userInfo?.IDP) {
-                throw new Error(ERROR.NOT_LOGGED_IN);
-            }
-            if (context?.userInfo?.role !== USER.ROLES.ADMIN) {
-                throw new Error(ERROR.INVALID_ROLE);
-            };
-
-            return dataInterface.listActiveCurators();
-        },
+        listActiveCurators: dataInterface.listActiveCuratorsAPI.bind(dataInterface),
         listOrganizations : organizationInterface.listOrganizationsAPI.bind(organizationInterface),
         getOrganization : organizationInterface.getOrganizationAPI.bind(organizationInterface),
         editOrganization : organizationInterface.editOrganizationAPI.bind(organizationInterface),
