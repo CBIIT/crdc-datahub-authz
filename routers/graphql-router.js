@@ -6,8 +6,6 @@ const {DATABASE_NAME, USER_COLLECTION, LOG_COLLECTION, ORGANIZATION_COLLECTION} 
 const {DatabaseConnector} = require("../crdc-datahub-database-drivers/database-connector");
 const {User} = require("../crdc-datahub-database-drivers/services/user")
 const {Organization} = require("../crdc-datahub-database-drivers/services/organization")
-const {ERROR} = require("../crdc-datahub-database-drivers/constants/error-constants");
-const {USER} = require("../crdc-datahub-database-drivers/constants/user-constants");
 
 const schema = buildSchema(require("fs").readFileSync("resources/graphql/authorization.graphql", "utf8"));
 const dbConnector = new DatabaseConnector(config.mongo_db_connection_string);
