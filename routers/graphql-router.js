@@ -17,7 +17,7 @@ dbConnector.connect().then(() => {
     const userCollection = new MongoDBCollection(dbConnector.client, DATABASE_NAME, USER_COLLECTION);
     const logCollection = new MongoDBCollection(dbConnector.client, DATABASE_NAME, LOG_COLLECTION);
     const organizationCollection = new MongoDBCollection(dbConnector.client, DATABASE_NAME, ORGANIZATION_COLLECTION);
-    const organizationService = new Organization(organizationCollection);
+    const organizationInterface = new Organization(organizationCollection);
     const dataInterface = new User(userCollection, logCollection, organizationCollection);
     root = {
         getMyUser : dataInterface.getMyUser.bind(dataInterface),
@@ -35,24 +35,7 @@ dbConnector.connect().then(() => {
 
             return dataInterface.listActiveCurators();
         },
-        listOrganizations: (params, context) => {
-            if (!context?.userInfo?.email || !context?.userInfo?.IDP) {
-                throw new Error(ERROR.NOT_LOGGED_IN);
-            }
-            if (context?.userInfo?.role !== USER.ROLES.ADMIN && context?.userInfo.role !== USER.ROLES.ORG_OWNER) {
-                throw new Error(ERROR.INVALID_ROLE);
-            }
-            if (context.userInfo.role === USER.ROLES.ORG_OWNER && !context?.userInfo?.organization?.orgID) {
-                throw new Error(ERROR.NO_ORG_ASSIGNED);
-            }
-
-            const filters = {};
-            if (context?.userInfo?.role === USER.ROLES.ORG_OWNER) {
-                filters["_id"] = context?.userInfo?.organization?.orgID;
-            }
-
-            return organizationService.listOrganizations(filters);
-        },
+        listOrganizations : organizationInterface.listOrganizationsAPI.bind(organizationInterface),
         getOrganization: (params, context) => {
             if (!context?.userInfo?.email || !context?.userInfo?.IDP) {
                 throw new Error(ERROR.NOT_LOGGED_IN);
@@ -64,7 +47,7 @@ dbConnector.connect().then(() => {
                 throw new Error(ERROR.INVALID_ORG_ID);
             }
 
-            return organizationService.getOrganizationByID(params.orgID);
+            return organizationInterface.getOrganizationByID(params.orgID);
         },
         editOrganization: (params, context) => {
             if (!context?.userInfo?.email || !context?.userInfo?.IDP) {
@@ -77,7 +60,7 @@ dbConnector.connect().then(() => {
                 throw new Error(ERROR.INVALID_ORG_ID);
             }
 
-            return organizationService.editOrganization(params, userCollection);
+            return organizationInterface.editOrganization(params, userCollection);
         },
     };
 });
