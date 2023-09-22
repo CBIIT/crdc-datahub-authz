@@ -17,7 +17,7 @@ dbConnector.connect().then(() => {
     const userCollection = new MongoDBCollection(dbConnector.client, DATABASE_NAME, USER_COLLECTION);
     const logCollection = new MongoDBCollection(dbConnector.client, DATABASE_NAME, LOG_COLLECTION);
     const organizationCollection = new MongoDBCollection(dbConnector.client, DATABASE_NAME, ORGANIZATION_COLLECTION);
-    const organizationInterface = new Organization(organizationCollection);
+    const organizationInterface = new Organization(organizationCollection, userCollection);
     const dataInterface = new User(userCollection, logCollection, organizationCollection);
     root = {
         getMyUser : dataInterface.getMyUser.bind(dataInterface),
@@ -36,32 +36,8 @@ dbConnector.connect().then(() => {
             return dataInterface.listActiveCurators();
         },
         listOrganizations : organizationInterface.listOrganizationsAPI.bind(organizationInterface),
-        getOrganization: (params, context) => {
-            if (!context?.userInfo?.email || !context?.userInfo?.IDP) {
-                throw new Error(ERROR.NOT_LOGGED_IN);
-            }
-            if (context?.userInfo?.role !== USER.ROLES.ADMIN) {
-                throw new Error(ERROR.INVALID_ROLE);
-            }
-            if (!params?.orgID) {
-                throw new Error(ERROR.INVALID_ORG_ID);
-            }
-
-            return organizationInterface.getOrganizationByID(params.orgID);
-        },
-        editOrganization: (params, context) => {
-            if (!context?.userInfo?.email || !context?.userInfo?.IDP) {
-                throw new Error(ERROR.NOT_LOGGED_IN);
-            }
-            if (context?.userInfo?.role !== USER.ROLES.ADMIN) {
-                throw new Error(ERROR.INVALID_ROLE);
-            }
-            if (!params?.orgID) {
-                throw new Error(ERROR.INVALID_ORG_ID);
-            }
-
-            return organizationInterface.editOrganization(params, userCollection);
-        },
+        getOrganization : organizationInterface.getOrganizationAPI.bind(organizationInterface),
+        editOrganization : organizationInterface.editOrganizationAPI.bind(organizationInterface),
     };
 });
 
