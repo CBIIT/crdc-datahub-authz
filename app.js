@@ -29,11 +29,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(join(__dirname, 'public')));
 
-// add ping and version endpoints
-app.use("/api/authz", statusRouter);
 
 // create session
 app.use(createSession(config.session_secret, config.session_timeout, config.mongo_db_connection_string));
+
+// add ping and version endpoints
+app.use("/api/authz", statusRouter);
 
 // add graphql endpoint
 app.use("/api/authz/graphql", graphqlRouter);
