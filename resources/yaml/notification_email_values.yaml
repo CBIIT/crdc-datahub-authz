@@ -1,0 +1,3 @@
+# The variable $arms will be replaced by a comma separated list of arm names included in the request
+# The variable $user will be replaced by the submitting user's first name, last name, and email formatted as: firstName lastName (email)
+NOTIFICATION_SENDER: "do-not-reply@mail.nih.gov"
