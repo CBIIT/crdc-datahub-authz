@@ -27,7 +27,11 @@ dbConnector.connect().then(() => {
         updateMyUser : dataInterface.updateMyUser.bind(dataInterface),
         listUsers : dataInterface.listUsers.bind(dataInterface),
         editUser : dataInterface.editUser.bind(dataInterface),
+        listActiveCurators: dataInterface.listActiveCuratorsAPI.bind(dataInterface),
         listOrganizations : organizationInterface.listOrganizationsAPI.bind(organizationInterface),
+        getOrganization : organizationInterface.getOrganizationAPI.bind(organizationInterface),
+        editOrganization : organizationInterface.editOrganizationAPI.bind(organizationInterface),
+        createOrganization : organizationInterface.createOrganizationAPI.bind(organizationInterface),
     };
 });
 
