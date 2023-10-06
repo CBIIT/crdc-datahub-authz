@@ -20,7 +20,7 @@ dbConnector.connect().then(() => {
     const organizationInterface = new Organization(organizationCollection, userCollection);
     const emailService = new EmailService(config.email_transport, config.emails_enabled);
     const notificationsService = new NotifyUser(emailService);
-    const dataInterface = new User(userCollection, logCollection, organizationCollection, notificationsService);
+    const dataInterface = new User(userCollection, logCollection, organizationCollection, notificationsService, config.official_email);
     root = {
         getMyUser : dataInterface.getMyUser.bind(dataInterface),
         getUser : dataInterface.getUser.bind(dataInterface),
