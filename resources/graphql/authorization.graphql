@@ -4,7 +4,7 @@ type User {
   _id: ID # MongoDB native ID or UUID
   firstName: String
   lastName: String
-  userStatus: String # [Active, Inactive, Disabled]
+  userStatus: String # [Active, Inactive]
   role: String # [User, Submitter, Organization Owner, Federal Lead, Data Curator, Data Commons POC, Admin]
   IDP: String # [NIH, Login.gov]
   email: String
