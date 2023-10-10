@@ -32,6 +32,7 @@ dbConnector.connect().then(() => {
         getOrganization : organizationInterface.getOrganizationAPI.bind(organizationInterface),
         editOrganization : organizationInterface.editOrganizationAPI.bind(organizationInterface),
         createOrganization : organizationInterface.createOrganizationAPI.bind(organizationInterface),
+        grantToken : dataInterface.grantToken.bind(dataInterface),
     };
 });
 
