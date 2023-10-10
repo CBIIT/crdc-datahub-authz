@@ -1,0 +1,5 @@
+# The variable $arms will be replaced by a comma separated list of arm names included in the request
+# The variable $user will be replaced by the submitting user's first name, last name, and email formatted as: firstName lastName (email)
+NOTIFICATION_SENDER: "do-not-reply@mail.nih.gov"
+INACTIVE_USER_SUBJECT: "Your CRDC Data Hub account has been disabled"
+INACTIVE_USER_CONTENT: "Your CRDC user account has been inactivated by the CRDC Web Admin. To reinstate your account please contact $officialEmail"
