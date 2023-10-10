@@ -10,6 +10,7 @@ let config = {
     mongo_db_password: process.env.MONGO_DB_PASSWORD,
     mongo_db_host: process.env.MONGO_DB_HOST,
     mongo_db_port: process.env.MONGO_DB_PORT,
+    official_email: process.env.OFFICIAL_EMAIL || 'CRDCHelpDesk@nih.gov',
     // Email settings
     email_transport: getTransportConfig(),
     emails_enabled: process.env.EMAILS_ENABLED ? process.env.EMAILS_ENABLED.toLowerCase() === 'true' : true,
