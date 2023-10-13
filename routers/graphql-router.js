@@ -2,7 +2,11 @@ const {buildSchema} = require('graphql');
 const {createHandler} = require("graphql-http/lib/use/express");
 const config = require("../config");
 const {MongoDBCollection} = require("../crdc-datahub-database-drivers/mongodb-collection");
-const {DATABASE_NAME, USER_COLLECTION, LOG_COLLECTION, ORGANIZATION_COLLECTION} = require("../crdc-datahub-database-drivers/database-constants");
+const {
+    DATABASE_NAME, USER_COLLECTION, LOG_COLLECTION,
+    ORGANIZATION_COLLECTION, SUBMISSIONS_COLLECTION,
+    APPLICATION_COLLECTION,
+} = require("../crdc-datahub-database-drivers/database-constants");
 const {DatabaseConnector} = require("../crdc-datahub-database-drivers/database-connector");
 const {User} = require("../crdc-datahub-database-drivers/services/user")
 const {Organization} = require("../crdc-datahub-database-drivers/services/organization")
@@ -17,7 +21,9 @@ dbConnector.connect().then(() => {
     const userCollection = new MongoDBCollection(dbConnector.client, DATABASE_NAME, USER_COLLECTION);
     const logCollection = new MongoDBCollection(dbConnector.client, DATABASE_NAME, LOG_COLLECTION);
     const organizationCollection = new MongoDBCollection(dbConnector.client, DATABASE_NAME, ORGANIZATION_COLLECTION);
-    const organizationInterface = new Organization(organizationCollection, userCollection);
+    const submissionsCollection = new MongoDBCollection(dbConnector.client, DATABASE_NAME, SUBMISSIONS_COLLECTION);
+    const applicationCollection = new MongoDBCollection(dbConnector.client, DATABASE_NAME, APPLICATION_COLLECTION);
+    const organizationInterface = new Organization(organizationCollection, userCollection, submissionsCollection, applicationCollection);
     const emailService = new EmailService(config.email_transport, config.emails_enabled);
     const notificationsService = new NotifyUser(emailService);
     const dataInterface = new User(userCollection, logCollection, organizationCollection, notificationsService, config.official_email);
