@@ -10,7 +10,7 @@ const {
 const {DatabaseConnector} = require("../crdc-datahub-database-drivers/database-connector");
 const {User} = require("../crdc-datahub-database-drivers/services/user")
 const {Organization} = require("../crdc-datahub-database-drivers/services/organization")
-const {EmailService} = require("../services/email");
+const {EmailService} = require("../crdc-datahub-database-drivers/services/email");
 const {NotifyUser} = require("../services/notify-user");
 
 const schema = buildSchema(require("fs").readFileSync("resources/graphql/authorization.graphql", "utf8"));
