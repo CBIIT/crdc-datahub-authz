@@ -1,2 +1,2 @@
-# crdc-datahub-authz
-The authorization (AuthZ) service for the CRDC Data Hub
+# CRDC DataHub Backend
+The GraphQL API for the CRDC DataHub Backend

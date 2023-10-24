@@ -1,0 +1,9 @@
+
+.idea
+node_modules
+*.env
+/logs/
+*.http
+
+*localtest*
+*DS_STORE*
