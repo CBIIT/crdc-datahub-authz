@@ -20,7 +20,7 @@ let config = {
 
     // Token
     token_secret: process.env.SESSION_SECRET,
-    tokenTimeout: parseInt(process.env.TOKEN_TIMEOUT)*1000 || 60*24*60*60*1000,
+    token_timeout: parseInt(process.env.TOKEN_TIMEOUT) * 1000 || 30 * 24 * 60 * 60 * 1000,
     devTier: process.env.DEV_TIER || ""
 };
 config.mongo_db_connection_string = `mongodb://${config.mongo_db_user}:${config.mongo_db_password}@${config.mongo_db_host}:${process.env.MONGO_DB_PORT}`;
