@@ -35,6 +35,7 @@ app.use("/api/authz", statusRouter);
 // create session
 app.use(createSession(config.session_secret, config.session_timeout, config.mongo_db_connection_string));
 
+
 // add graphql endpoint
 app.use("/api/authz/graphql", graphqlRouter);
 
